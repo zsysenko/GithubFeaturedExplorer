@@ -22,10 +22,14 @@ struct GithubFeaturedExplorerApp: App {
 //            fatalError("Could not create ModelContainer: \(error)")
 //        }
 //    }()
+    
+    private var paths: [NavigationPath] = []
 
     var body: some Scene {
         WindowGroup {
-            FeaturedList()
+            NavigationStack {
+                FeaturedList()
+            }
         }
         .environment(FeaturedListModel(apiService: ApiService()))
 //        .modelContainer(sharedModelContainer)

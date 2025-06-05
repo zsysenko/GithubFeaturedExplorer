@@ -19,7 +19,7 @@ struct SearchResponse: Codable {
     }
 }
 
-struct Repository: Codable, Identifiable {
+struct Repository: Codable, Identifiable, Hashable {
     let id: Int
     let name: String
     let fullName: String
@@ -29,7 +29,6 @@ struct Repository: Codable, Identifiable {
     let stargazersCount: Int
     let watchersCount: Int
     let forksCount: Int
-    let openIssuesCount: Int
     let owner: Owner
 
     enum CodingKeys: String, CodingKey {
@@ -42,21 +41,48 @@ struct Repository: Codable, Identifiable {
         case stargazersCount = "stargazers_count"
         case watchersCount = "watchers_count"
         case forksCount = "forks_count"
-        case openIssuesCount = "open_issues_count"
         case owner
     }
 }
 
-struct Owner: Codable {
+extension Repository {
+    static let mock = Repository(
+        id: 1,
+        name: "name",
+        fullName: "fullName",
+        description: "description",
+        htmlURL: "htmlURL",
+        language: "language",
+        stargazersCount: 10,
+        watchersCount: 10,
+        forksCount: 10,
+        owner: Owner.mock
+    )
+}
+
+struct Owner: Codable, Hashable {
     let login: String
     let id: Int
-    let avatarURL: String
+    let avatarUrlString: String
     let htmlURL: String
+    
+    var avatarUrl: URL? {
+        URL(string: avatarUrlString)
+    }
 
     enum CodingKeys: String, CodingKey {
         case login
         case id
-        case avatarURL = "avatar_url"
+        case avatarUrlString = "avatar_url"
         case htmlURL = "html_url"
     }
+}
+
+extension Owner {
+    static let mock = Owner(
+        login: "login",
+        id: 1,
+        avatarUrlString: "avatarURL",
+        htmlURL: "htmlURL"
+    )
 }
