@@ -7,33 +7,30 @@
 
 import Foundation
 
-protocol GithubFeaturedApi {
+protocol GithubSearchApi {
     func fetchTrending(for period: String) async throws -> [Repository]
-    func fetchProject(projectId: String) async throws
 }
 
-extension ApiService: GithubFeaturedApi {
-    
+extension ApiService: GithubSearchApi {
     func fetchTrending(for period: String) async throws -> [Repository] {
-        var components = URLComponents(string: "https://api.github.com/search/repositories")!
+        guard var components = URLComponents(string: "https://api.github.com/search/repositories") else {
+            throw ApiError.invalidUrl
+        }
         components.queryItems = [
             URLQueryItem(name: "q", value: "created:>\(period)"),
             URLQueryItem(name: "sort", value: "stars"),
             URLQueryItem(name: "order", value: "desc")
         ]
-        
+        guard let url = components.url else {
+            throw ApiError.invalidUrl
+        }
 
-        var request = URLRequest(url: components.url!)
+        var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("application/vnd.github.preview", forHTTPHeaderField: "Accept")
         
         let searchResponse: SearchResponse = try await perfomRequest(request)
-        
         return searchResponse.items
-        
     }
     
-    func fetchProject(projectId: String) async throws {
-        
-    }
 }

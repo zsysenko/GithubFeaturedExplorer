@@ -31,13 +31,7 @@ struct GithubFeaturedExplorerApp: App {
                 perfomNavigation(for: navigationType)
             }
             .onAppear {
-                let window = UIApplication.shared
-                    .connectedScenes
-                    .compactMap { $0 as? UIWindowScene }
-                    .flatMap { $0.windows }
-                    .first
-                
-                window?.overrideUserInterfaceStyle = appearance.userInterfaceStyle
+                setupTheme()
             }
         }
         .environment(FeaturedListModel(apiService: ApiService()))
@@ -50,7 +44,9 @@ struct GithubFeaturedExplorerApp: App {
                 FeaturedListScreen()
                 
             case .repoDetail(let repository):
-                RepositoryDetailScreen(repository: repository)
+                let model = RepositoryDetailModel(repository: repository)
+                RepositoryDetailScreen()
+                    .environment(model)
         }
     }
     
@@ -68,5 +64,15 @@ struct GithubFeaturedExplorerApp: App {
                     navigationRoutes = Array(navigationRoutes.prefix(upTo: index + 1))
                 }
         }
+    }
+    
+    private func setupTheme() {
+        let window = UIApplication.shared
+            .connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first
+        
+        window?.overrideUserInterfaceStyle = appearance.userInterfaceStyle
     }
 }

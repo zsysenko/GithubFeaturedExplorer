@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import Observation
 
 @MainActor @Observable
 final class FeaturedListModel {
-    private let apiService: GithubFeaturedApi
+    private let apiService: GithubSearchApi
     
     var isLoading = false
+    var error: Error? = nil
     
     var featuredList: [Repository] = []
     var filteredList: [Repository] {
@@ -22,7 +24,7 @@ final class FeaturedListModel {
         }
     }
     
-    var selectedDataRange: DateRange = .today
+    var selectedDataRange: DateRange = .thisMonth
     var selectedLanguage: String? = nil
     
     var languages: [String] {
@@ -35,7 +37,7 @@ final class FeaturedListModel {
             }
     }
     
-    init(apiService: GithubFeaturedApi) {
+    init(apiService: GithubSearchApi) {
         self.apiService = apiService
     }
     
@@ -44,7 +46,7 @@ final class FeaturedListModel {
         defer { isLoading = false }
         
         do {
-            let dateString = getDate(for: selectedDataRange)
+            let dateString = selectedDataRange.calculatedDateRange
             let list = try await apiService.fetchTrending(for: String(dateString))
             
             selectedLanguage = nil
@@ -53,11 +55,5 @@ final class FeaturedListModel {
         } catch {
             print("error: \(error.localizedDescription)")
         }
-    }
-    
-    func getDate(for range: DateRange) -> String {
-        guard let date = Calendar.current.date(byAdding: .day, value: range.value, to: Date()) else { return "" }
-        let stringDate = date.string(with: .apiDate)
-        return stringDate
     }
 }

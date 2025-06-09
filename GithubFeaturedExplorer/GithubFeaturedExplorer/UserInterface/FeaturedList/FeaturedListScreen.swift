@@ -17,7 +17,7 @@ enum ActiveFilter: Identifiable  {
 }
 
 struct FeaturedListScreen: View {
-    @Environment(FeaturedListModel.self) private var model
+    @Environment(FeaturedListModel.self)  private var model
     @Environment(\.navigate) private var navigate
     
     @State private var selectedFilter: ActiveFilter? = nil
@@ -67,10 +67,10 @@ struct FeaturedListScreen: View {
                 case .languageFilter:
                     LanguageFilterScreen(
                         languages: model.languages,
-                        selectedLanguage:
+                        selectedLanguage: 
                             Binding(
                                 get: { model.selectedLanguage },
-                                set: {model.selectedLanguage = $0}
+                                set: { model.selectedLanguage = $0 }
                             ),
                         onDismiss: {
                             self.selectedFilter = nil
@@ -126,61 +126,33 @@ struct FeaturedListScreen: View {
     }
 }
 
-struct FilterControlView: View {
-    var selectedValue: String
-    var isExpanded: Bool = false
-    
-    let onTap: () -> Void
-    
-    var body: some View {
-        Button {
-            onTap()
-        } label: {
-            HStack(spacing: 5) {
-                Text(selectedValue)
-                Image(systemName: "chevron.down")
-                    .font(.caption2)
-                    .rotationEffect(.degrees(isExpanded ? 180 : 0))
-                    .animation(.easeIn(duration: 0.2), value: isExpanded)
-            }
-            .font(.callout)
-        }
-    }
-}
-
 struct RepositoryCell: View {
     
     let repository: Repository
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .top, spacing: 5) {
-                Text("\(repository.name)")
-                    .foregroundStyle(.blue)
-                +
-                Text(" \\ \(repository.owner.login)")
-                    .bold()
-                    .foregroundStyle(.blue)
-                
-                Spacer()
-            }
+            RepoTitleView(
+                repo: repository.name,
+                owner: repository.owner.login
+            )
             
             Text(repository.description ?? " - ")
                 .font(.caption)
             
             HStack(spacing: 10) {
                 Text(repository.language ?? "")
-                    .font(.caption)
                     .bold()
                 
                 StarsView(starsCount: repository.stargazersCount)
                 ForksView(forkCount: repository.forksCount)
-                
+
                 Spacer()
                 
                 AvatarView(url: repository.owner.avatarUrl)
-                    .frame(maxWidth: 30)
+                    .frame(maxWidth: 40)
             }
+            .font(.caption)
             
         }
         .frame(maxHeight: .infinity)
@@ -208,29 +180,9 @@ struct AvatarView: View {
     }
 }
 
-struct StarsView: View {
-    let starsCount: Int
-    
-    var body: some View {
-        HStack {
-            Image(systemName: "star")
-            Text("\(starsCount)")
-        }
-        .font(.caption)
-    }
-}
 
-struct ForksView: View {
-    let forkCount: Int
-    
-    var body: some View {
-        HStack {
-            Image(systemName: "tuningfork")
-            Text("\(forkCount)")
-        }
-        .font(.caption)
-    }
-}
+
+
 
 #Preview {
     FeaturedListScreen()
