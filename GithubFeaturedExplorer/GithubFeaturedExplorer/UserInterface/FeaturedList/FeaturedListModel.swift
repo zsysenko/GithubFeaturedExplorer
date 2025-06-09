@@ -27,6 +27,10 @@ final class FeaturedListModel {
     var selectedDataRange: DateRange = .thisMonth
     var selectedLanguage: String? = nil
     
+    deinit {
+        print("FeaturedListModel deinit.")
+    }
+    
     var languages: [String] {
         featuredList
             .compactMap { $0.language }
@@ -45,13 +49,13 @@ final class FeaturedListModel {
         isLoading = true
         defer { isLoading = false }
         
+        selectedLanguage = nil
+        
         do {
             let dateString = selectedDataRange.calculatedDateRange
             let list = try await apiService.fetchTrending(for: String(dateString))
             
-            selectedLanguage = nil
             featuredList = list
-            
         } catch {
             print("error: \(error.localizedDescription)")
         }

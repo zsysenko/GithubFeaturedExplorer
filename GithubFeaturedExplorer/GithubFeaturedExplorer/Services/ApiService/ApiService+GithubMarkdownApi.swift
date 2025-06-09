@@ -7,6 +7,9 @@
 
 import Foundation
 
+protocol GithubMarkdownApi: Actor {
+    func convertMarkDownToHtml(markdownUrlString: String) async throws -> String
+}
 
 extension ApiService: GithubMarkdownApi {
     

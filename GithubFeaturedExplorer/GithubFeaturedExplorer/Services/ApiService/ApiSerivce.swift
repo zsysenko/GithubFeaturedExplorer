@@ -10,16 +10,6 @@ import UIKit
 
 typealias JSONDictionary = [String: Any]
 
-protocol GithubRepoApi {
-    func fetchReadme(owner: String, repo: String) async throws -> Readme
-    func fetchCollaborators(owner: String, repo: String) async throws -> [Collaborator]
-    func fetchLanguages(owner: String, repo: String) async throws -> [Language]
-}
-
-protocol GithubMarkdownApi {
-    func convertMarkDownToHtml(markdownUrlString: String) async throws -> String
-}
-
 enum ApiError: Error {
     case invalidUrl
     case invalidResponse

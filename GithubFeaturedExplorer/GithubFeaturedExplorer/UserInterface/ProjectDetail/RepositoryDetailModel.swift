@@ -39,8 +39,12 @@ final class RepositoryDetailModel {
     }
     
     func load() async {
-        Task { await fetchReadme() }
-        Task { await fetchLanguages() }
+        Task {
+            await fetchReadme()
+        }
+        Task {
+            await fetchLanguages()
+        }
     }
     
     func fetchReadme() async {
@@ -73,7 +77,8 @@ final class RepositoryDetailModel {
         }
     }
     
-    // Need auth. Skip for now.
+    //TODO: Need auth. Skip for now.
+    
 //    func fetchCollaborators() async {
 //        do {
 //            let collaborators = try await apiService.fetchCollaborators(owner: owner , repo: repo)

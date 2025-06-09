@@ -23,7 +23,7 @@ extension Language {
         "JavaScript": .yellow,
         "Python": .blue,
         "Java": .orange,
-        "C++": .pink,
+        "Jupyter Notebook": .pink,
         "Rust": .green,
         "TypeScript": .cyan,
         "Swift": .mint,

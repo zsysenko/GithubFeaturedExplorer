@@ -17,13 +17,8 @@ struct LanguagesView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                if languages.count > 0 {
-                    languageBar(geometry: geometry)
-                    languageAnnotationsView
-                } else {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.gray)
-                }
+                languageBar(geometry: geometry)
+                languageAnnotationsView
             }
             .frame(maxWidth: geometry.size.width)
         }
@@ -49,11 +44,13 @@ struct LanguagesView: View {
             LazyHStack {
                 ForEach(languages, id: \.name) { language in
                     let precent = Double(language.value) / total * 100
-                    LanguageBadge(
-                        language: language.name,
-                        color: language.color,
-                        precent: precent
-                    )
+                    if precent > 0.05 {
+                        LanguageBadge(
+                            language: language.name,
+                            color: language.color,
+                            precent: precent
+                        )
+                    }
                 }
             }
         }

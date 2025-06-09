@@ -24,9 +24,10 @@ struct FeaturedListScreen: View {
     @State private var isSettingsOpened = false
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack {
             headerView
             filtersControll
+                .padding(.top, 10)
             
             if model.isLoading {
                 ProgressView()
@@ -78,15 +79,17 @@ struct FeaturedListScreen: View {
                     )
             }
         })
-        .onChange(of: model.selectedDataRange, initial: true, { _, _ in
-            Task {
-                await model.fetchFeaturedList()
+        .onChange(of: model.selectedDataRange, initial: true, { old, new in
+            if model.featuredList.isEmpty || old != new {
+                Task {
+                    await model.fetchFeaturedList()
+                }
             }
         })
     }
     
     private var headerView: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 5) {
             Text("Trending")
                 .font(.title)
                 .bold()
@@ -104,7 +107,12 @@ struct FeaturedListScreen: View {
                         navigate(.push(.repoDetail(repository: repository)))
                     }
             })
+            .frame(maxWidth: 700, alignment: .center)
         }
+        .frame(maxWidth: .infinity)
+        .background(
+            Color(uiColor: UIColor.systemGroupedBackground)
+        )
     }
     
     private var filtersControll: some View {
@@ -158,31 +166,6 @@ struct RepositoryCell: View {
         .frame(maxHeight: .infinity)
     }
 }
-
-struct AvatarView: View {
-    let url: URL?
-    
-    var body: some View {
-        AsyncImage(url: url) { image in
-            image
-                .resizable()
-                .scaledToFit()
-                .clipShape(Circle())
-            
-        } placeholder: {
-            Circle()
-                .fill(.gray)
-                .overlay {
-                    Image(systemName: "person.fill")
-                        .foregroundStyle(.white)
-                }
-        }
-    }
-}
-
-
-
-
 
 #Preview {
     FeaturedListScreen()

@@ -7,7 +7,11 @@
 
 import Foundation
 
-
+protocol GithubRepoApi: Actor {
+    func fetchReadme(owner: String, repo: String) async throws -> Readme
+    func fetchCollaborators(owner: String, repo: String) async throws -> [Collaborator]
+    func fetchLanguages(owner: String, repo: String) async throws -> [Language]
+}
 
 extension ApiService: GithubRepoApi {
     

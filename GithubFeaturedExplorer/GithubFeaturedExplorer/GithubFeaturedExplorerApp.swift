@@ -45,6 +45,7 @@ struct GithubFeaturedExplorerApp: App {
                 
             case .repoDetail(let repository):
                 let model = RepositoryDetailModel(repository: repository)
+                
                 RepositoryDetailScreen()
                     .environment(model)
         }
