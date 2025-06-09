@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol GithubSearchApi {
+protocol GithubSearchApi: Actor {
     func fetchTrending(for period: String) async throws -> [Repository]
 }
 

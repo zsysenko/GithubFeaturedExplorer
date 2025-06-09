@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum Appearance: String, CaseIterable, Identifiable {
-    case unspecified = "Unspecified"
+    case unspecified = "System"
     case light = "Light"
     case dark = "Dark"
     

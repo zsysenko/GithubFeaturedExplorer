@@ -53,7 +53,7 @@ final class FeaturedListModel {
         
         do {
             let dateString = selectedDataRange.calculatedDateRange
-            let list = try await apiService.fetchTrending(for: String(dateString))
+            let list = try await apiService.fetchTrending(for: dateString)
             
             featuredList = list
         } catch {
