@@ -135,7 +135,6 @@ struct FeaturedListScreen: View {
 }
 
 struct RepositoryCell: View {
-    
     let repository: Repository
     
     var body: some View {

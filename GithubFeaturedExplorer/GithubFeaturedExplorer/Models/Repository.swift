@@ -22,7 +22,6 @@ struct Repository: Codable, Identifiable, Hashable {
     let name: String
     let fullName: String
     let description: String?
-    let htmlURL: String
     let homepage: String?
     let language: String?
     let stargazersCount: Int
@@ -37,7 +36,6 @@ struct Repository: Codable, Identifiable, Hashable {
         case name
         case fullName = "full_name"
         case description
-        case htmlURL = "html_url"
         case homepage
         case language
         case stargazersCount = "stargazers_count"
@@ -55,7 +53,6 @@ extension Repository {
         name: "name + longer name",
         fullName: "repo full long name",
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-        htmlURL: "htmlURL",
         homepage: "featured.com",
         language: "language",
         stargazersCount: 10,

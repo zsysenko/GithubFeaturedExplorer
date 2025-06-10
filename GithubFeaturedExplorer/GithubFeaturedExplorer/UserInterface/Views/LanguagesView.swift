@@ -84,8 +84,8 @@ struct LanguageBadge: View {
 
 #Preview {
     LanguagesView(languages: [
-        //        Language(name: "Swift", value: 70),
-        //        Language(name: "Python", value: 30)
+        Language(name: "Swift", value: 70),
+        Language(name: "Python", value: 30)
     ])
     .padding()
 }

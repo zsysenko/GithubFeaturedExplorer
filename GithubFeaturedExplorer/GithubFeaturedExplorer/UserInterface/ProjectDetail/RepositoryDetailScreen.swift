@@ -82,6 +82,7 @@ struct RepositoryDetailScreen: View {
                     "Issues with loading readme file.",
                     systemImage: "icloud.slash"
                 )
+                .padding()
         }
     }
     

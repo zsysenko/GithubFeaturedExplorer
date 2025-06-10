@@ -19,7 +19,7 @@ struct Language: Decodable {
 }
 
 extension Language {
-    static var languageColors: [String: Color] = [
+    static let languageColors: [String: Color] = [
         "JavaScript": .yellow,
         "Python": .blue,
         "Java": .orange,

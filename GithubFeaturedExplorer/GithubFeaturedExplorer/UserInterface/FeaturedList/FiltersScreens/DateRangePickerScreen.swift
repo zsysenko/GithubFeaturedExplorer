@@ -31,7 +31,10 @@ enum DateRange: String, CaseIterable, Identifiable {
     }
     
     var calculatedDateRange: String {
-        guard let date = Calendar.current.date(byAdding: .day, value: value, to: Date()) else { return "" }
+        guard
+            let date = Calendar.current
+                .date(byAdding: .day, value: value, to: Date()) else { return "" }
+        
         let stringDate = date.string(with: .apiDate)
         return stringDate
     }

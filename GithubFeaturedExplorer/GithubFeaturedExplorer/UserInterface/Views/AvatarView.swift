@@ -28,7 +28,6 @@ struct AvatarView: View {
     }
 }
 
-
 #Preview {
     AvatarView(url: nil)
         .frame(width: 100)
