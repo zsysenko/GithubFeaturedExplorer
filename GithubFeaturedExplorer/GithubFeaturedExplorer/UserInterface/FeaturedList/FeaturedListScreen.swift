@@ -160,7 +160,6 @@ struct RepositoryCell: View {
                     .frame(maxWidth: 40)
             }
             .font(.caption)
-            
         }
         .frame(maxHeight: .infinity)
     }

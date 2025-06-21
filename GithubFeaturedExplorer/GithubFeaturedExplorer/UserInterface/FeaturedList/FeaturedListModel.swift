@@ -27,18 +27,16 @@ final class FeaturedListModel {
     var selectedDataRange: DateRange = .thisMonth
     var selectedLanguage: String? = nil
     
-    deinit {
-        print("FeaturedListModel deinit.")
-    }
-    
     var languages: [String] {
-        featuredList
-            .compactMap { $0.language }
-            .reduce(into: [String]()) { partialResult, language in
-                if !partialResult.contains(language) {
-                    partialResult.append(language)
-                }
-            }
+        let objectsSet = Set(featuredList.compactMap{ $0.language })
+        return Array(objectsSet)
+        
+//            .compactMap { $0.language }
+//            .reduce(into: [String]()) { partialResult, language in
+//                if !partialResult.contains(language) {
+//                    partialResult.append(language)
+//                }
+//            }
     }
     
     init(apiService: GithubSearchApi) {

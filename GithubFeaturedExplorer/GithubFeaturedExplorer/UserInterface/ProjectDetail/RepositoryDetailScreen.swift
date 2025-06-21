@@ -37,7 +37,7 @@ struct RepositoryDetailScreen: View {
         }
     }
     
-    //MARK: - Languages block
+    // MARK: - Languages block.
     
     @ViewBuilder
     private var languagesBlock: some View {
@@ -58,7 +58,7 @@ struct RepositoryDetailScreen: View {
         }
     }
     
-    //MARK: - Readme block
+    //MARK: - Readme block.
     
     @ViewBuilder
     private var readmeBlock: some View {
@@ -129,7 +129,6 @@ struct RepositoryDetailScreen: View {
                         LicenseBadge(license: license.name)
                             .font(.caption)
                     }
-
                 }
                 .font(.subheadline)
                 .foregroundStyle(.gray)

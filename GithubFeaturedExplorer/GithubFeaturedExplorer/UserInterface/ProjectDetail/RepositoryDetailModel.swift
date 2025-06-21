@@ -9,7 +9,9 @@ import Foundation
 
 typealias GitHubDetailsApi = GithubRepoApi & GithubMarkdownApi
 
-@MainActor @Observable
+@MainActor
+@Observable
+
 final class RepositoryDetailModel {
     private let apiService: GitHubDetailsApi
     
