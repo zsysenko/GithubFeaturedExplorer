@@ -17,7 +17,6 @@ extension String: FilterObjectProtocol {
     }
 }
 
-@Observable
 final class FiltersViewModel<Object: FilterObjectProtocol> {
     
     let objects: [Object]

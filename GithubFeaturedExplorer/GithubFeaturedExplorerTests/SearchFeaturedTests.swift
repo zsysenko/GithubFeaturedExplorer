@@ -33,7 +33,6 @@ final class SearchFeaturedTests: XCTestCase {
     
     func testFetchFeaturedList_WithLanguageFilter() async {
         let mockApiService = MockApiService()
-        
         await mockApiService.setFeatured(results: featuredRsults)
         let sut = FeaturedListModel(apiService: mockApiService)
         
@@ -45,12 +44,15 @@ final class SearchFeaturedTests: XCTestCase {
     }
     
     func testFetchFeaturedList_Error() async {
+        // Arrange.
         let mockApiService = MockApiService()
         await mockApiService.setError(error: ApiError.invalidUrl)
         let sut = FeaturedListModel(apiService: mockApiService)
         
+        // Act.
         await sut.fetchFeaturedList()
         
+        // Assert.
         XCTAssertEqual(sut.filteredList.count, 0)
         
         let error = try? XCTUnwrap(sut.error as? ApiError)
