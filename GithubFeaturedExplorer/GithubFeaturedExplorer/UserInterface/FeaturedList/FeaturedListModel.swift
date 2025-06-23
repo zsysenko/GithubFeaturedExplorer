@@ -15,7 +15,7 @@ final class FeaturedListModel {
     var isLoading = false
     var error: Error? = nil
     
-    var featuredList: [Repository] = []
+    private var featuredList: [Repository] = []
     var filteredList: [Repository] {
         if selectedLanguage == nil {
             return featuredList
@@ -48,7 +48,7 @@ final class FeaturedListModel {
             
             featuredList = list
         } catch {
-            print("error: \(error.localizedDescription)")
+            self.error = error as? ApiError
         }
     }
 }

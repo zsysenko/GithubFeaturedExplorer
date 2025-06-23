@@ -48,20 +48,22 @@ struct Repository: Codable, Identifiable, Hashable {
 }
 
 extension Repository {
-    static let mock = Repository(
-        id: 1,
-        name: "name + longer name",
-        fullName: "repo full long name",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-        homepage: "featured.com",
-        language: "language",
-        stargazersCount: 10,
-        watchersCount: 10,
-        forksCount: 10,
-        isPrivate: false,
-        owner: Owner.mock,
-        license: License.mock
-    )
+    static func mock(id: Int, name: String, language: String) -> Repository {
+        Repository(
+            id: id,
+            name: name,
+            fullName: "repo full long name",
+            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+            homepage: "featured.com",
+            language: language,
+            stargazersCount: 10,
+            watchersCount: 10,
+            forksCount: 10,
+            isPrivate: false,
+            owner: Owner.mock,
+            license: License.mock
+        )
+    }
 }
 
 struct Owner: Codable, Hashable {
