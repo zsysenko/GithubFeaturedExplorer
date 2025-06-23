@@ -140,5 +140,7 @@ struct RepositoryDetailScreen: View {
 
 #Preview {
     RepositoryDetailScreen()
-        .environment(RepositoryDetailModel(repository: Repository.mock))
+        .environment(RepositoryDetailModel(
+            repository: Repository.mock(id: 1, name: "Test repo", language: "Swift"))
+        )
 }

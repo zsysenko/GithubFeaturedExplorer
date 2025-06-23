@@ -20,7 +20,7 @@ struct FilterScreen<Object: FilterObjectProtocol>: View {
         }
     }
     
-    var onDismiss: () -> Void
+    var onSelect: (Object?) -> Void
     
     var body: some View {
         NavigationStack {
@@ -55,7 +55,7 @@ struct FilterScreen<Object: FilterObjectProtocol>: View {
     
     private func select(object: Object?) {
         viewModel.selectedObject = object
-        onDismiss()
+        onSelect(object)
     }
 }
 
@@ -63,9 +63,9 @@ struct FilterScreen<Object: FilterObjectProtocol>: View {
     FilterScreen(
         viewModel: FiltersViewModel(
             objects: ["Swift", "Python"],
-            selectedObject: .constant("Swift"),
+            selectedObject: "Swift",
             isOptionalAvailable: true
         ),
-        onDismiss: {}
+        onSelect: { object in }
     )
 }

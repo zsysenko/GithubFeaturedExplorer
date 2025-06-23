@@ -66,7 +66,7 @@ struct FeaturedListScreen: View {
             }
         })
         .onChange(of: viewModel.selectedDataRange, initial: true, { old, new in
-            if viewModel.featuredList.isEmpty || old != new {
+            if viewModel.filteredList.isEmpty || old != new {
                 Task {
                     await viewModel.fetchFeaturedList()
                 }
@@ -122,12 +122,13 @@ struct FeaturedListScreen: View {
     private var dateRangeFiltersScreen: some View {
         let dateFilterViewModel = FiltersViewModel(
             objects: DateRange.allCases,
-            selectedObject: $viewModel.selectedDataRange
+            selectedObject: viewModel.selectedDataRange
         )
         return FilterScreen(
             viewModel: dateFilterViewModel,
-            onDismiss: {
+            onSelect: { range in
                 self.selectedFilter = nil
+                self.viewModel.selectedDataRange = range
             }
         )
     }
@@ -135,13 +136,14 @@ struct FeaturedListScreen: View {
     private var languageFiltersScreen: some View {
         let languageFilterViewModel = FiltersViewModel(
             objects: viewModel.languages,
-            selectedObject: $viewModel.selectedLanguage,
+            selectedObject: viewModel.selectedLanguage,
             isOptionalAvailable: true
         )
         return FilterScreen(
             viewModel: languageFilterViewModel,
-            onDismiss: {
+            onSelect: { range in
                 self.selectedFilter = nil
+                self.viewModel.selectedLanguage = range
             }
         )
     }

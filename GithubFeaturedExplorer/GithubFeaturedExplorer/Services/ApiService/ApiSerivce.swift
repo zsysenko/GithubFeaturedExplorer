@@ -10,7 +10,7 @@ import UIKit
 
 typealias JSONDictionary = [String: Any]
 
-enum ApiError: Error {
+enum ApiError: Error, Equatable {
     case invalidUrl
     case invalidResponse
     case invalidStatusCode(code: Int)

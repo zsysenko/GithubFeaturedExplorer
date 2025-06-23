@@ -17,22 +17,22 @@ extension String: FilterObjectProtocol {
     }
 }
 
+@Observable
 final class FiltersViewModel<Object: FilterObjectProtocol> {
     
     let objects: [Object]
-    @Binding var selectedObject: Object?
+    var selectedObject: Object?
     
     var isOptionalAvailable: Bool
     var isSearchAvailable: Bool = false
     
     init(
         objects: [Object],
-        selectedObject: Binding<Object?>,
+        selectedObject: Object?,
         isOptionalAvailable: Bool = false
     ) {
         self.objects = objects
         self.isOptionalAvailable = isOptionalAvailable
-        
-        _selectedObject = selectedObject
+        self.selectedObject = selectedObject
     }
 }
