@@ -24,22 +24,15 @@ final class FeaturedListModel {
         }
     }
     
-    var selectedDataRange: DateRange = .thisMonth
+    var selectedDataRange: DateRange? = .thisMonth
     var selectedLanguage: String? = nil
     
     var languages: [String] {
         let objectsSet = Set(featuredList.compactMap{ $0.language })
         return Array(objectsSet)
-        
-//            .compactMap { $0.language }
-//            .reduce(into: [String]()) { partialResult, language in
-//                if !partialResult.contains(language) {
-//                    partialResult.append(language)
-//                }
-//            }
     }
     
-    init(apiService: GithubSearchApi) {
+    init(apiService: GithubSearchApi = ApiService()) {
         self.apiService = apiService
     }
     
@@ -50,7 +43,7 @@ final class FeaturedListModel {
         selectedLanguage = nil
         
         do {
-            let dateString = selectedDataRange.calculatedDateRange
+            let dateString = selectedDataRange?.calculatedDateRange ?? ""
             let list = try await apiService.fetchTrending(for: dateString)
             
             featuredList = list

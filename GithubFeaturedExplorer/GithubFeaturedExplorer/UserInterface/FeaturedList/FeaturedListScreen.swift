@@ -17,11 +17,16 @@ enum ActiveFilter: Identifiable  {
 }
 
 struct FeaturedListScreen: View {
-    @Environment(FeaturedListModel.self)  private var model
     @Environment(\.navigate) private var navigate
+    
+    @State private var viewModel: FeaturedListModel
     
     @State private var selectedFilter: ActiveFilter? = nil
     @State private var isSettingsOpened = false
+    
+    init(viewModel: FeaturedListModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         VStack {
@@ -29,7 +34,7 @@ struct FeaturedListScreen: View {
             filtersControll
                 .padding(.top, 10)
             
-            if model.isLoading {
+            if viewModel.isLoading {
                 ProgressView()
                     .progressViewStyle(.circular)
                     .padding()
@@ -54,35 +59,34 @@ struct FeaturedListScreen: View {
         .sheet(item: $selectedFilter, content: { selectedFilter in
             switch selectedFilter {
                 case .dateRangeFilter:
-                    DateRangePickerScreen(
-                        selectedRange:
-                            Binding(
-                                get: { model.selectedDataRange },
-                                set: { model.selectedDataRange = $0 }
-                            ),
+                    let dateFilterViewModel = FiltersViewModel(
+                        objects: DateRange.allCases,
+                        selectedObject: $viewModel.selectedDataRange
+                    )
+                    FilterScreen(
+                        viewModel: dateFilterViewModel,
                         onDismiss: {
                             self.selectedFilter = nil
                         }
                     )
                     
                 case .languageFilter:
-                    LanguageFilterScreen(
-                        languages: model.languages,
-                        selectedLanguage: 
-                            Binding(
-                                get: { model.selectedLanguage },
-                                set: { model.selectedLanguage = $0 }
-                            ),
+                    let languageFilterViewModel = FiltersViewModel(
+                        objects: viewModel.languages,
+                        selectedObject: $viewModel.selectedLanguage
+                    )
+                    FilterScreen(
+                        viewModel: languageFilterViewModel,
                         onDismiss: {
                             self.selectedFilter = nil
                         }
                     )
             }
         })
-        .onChange(of: model.selectedDataRange, initial: true, { old, new in
-            if model.featuredList.isEmpty || old != new {
+        .onChange(of: viewModel.selectedDataRange, initial: true, { old, new in
+            if viewModel.featuredList.isEmpty || old != new {
                 Task {
-                    await model.fetchFeaturedList()
+                    await viewModel.fetchFeaturedList()
                 }
             }
         })
@@ -101,7 +105,7 @@ struct FeaturedListScreen: View {
     
     private var contentView: some View {
         VStack(spacing: 10) {
-            List(model.filteredList, rowContent: { repository in
+            List(viewModel.filteredList, rowContent: { repository in
                 RepositoryCell(repository: repository)
                     .onTapGesture {
                         navigate(.push(.repoDetail(repository: repository)))
@@ -118,14 +122,14 @@ struct FeaturedListScreen: View {
     private var filtersControll: some View {
         HStack(spacing: 20) {
             FilterControlView(
-                selectedValue: model.selectedDataRange.title,
+                selectedValue: viewModel.selectedDataRange?.title ?? "All time",
                 isExpanded: selectedFilter == .dateRangeFilter
             ) {
                 selectedFilter = .dateRangeFilter
             }
             
             FilterControlView(
-                selectedValue: model.selectedLanguage ?? "All Languages",
+                selectedValue: viewModel.selectedLanguage ?? "All Languages",
                 isExpanded: selectedFilter == .languageFilter
             ) {
                 selectedFilter = .languageFilter
@@ -166,8 +170,5 @@ struct RepositoryCell: View {
 }
 
 #Preview {
-    FeaturedListScreen()
-        .environment(
-            FeaturedListModel(apiService: ApiService())
-        )
+    FeaturedListScreen(viewModel: FeaturedListModel(apiService: ApiService()))
 }

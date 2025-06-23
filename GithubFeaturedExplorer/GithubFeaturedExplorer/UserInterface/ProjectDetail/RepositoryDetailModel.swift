@@ -11,7 +11,6 @@ typealias GitHubDetailsApi = GithubRepoApi & GithubMarkdownApi
 
 @MainActor
 @Observable
-
 final class RepositoryDetailModel {
     private let apiService: GitHubDetailsApi
     

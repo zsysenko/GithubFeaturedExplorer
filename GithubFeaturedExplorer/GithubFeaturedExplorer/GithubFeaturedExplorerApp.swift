@@ -22,7 +22,7 @@ struct GithubFeaturedExplorerApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $navigationRoutes) {
-                FeaturedListScreen()
+                screenForRoute(.featuredRepoList)
                     .navigationDestination(for: NavigationRoute.self) { route in
                         screenForRoute(route)
                     }
@@ -34,20 +34,20 @@ struct GithubFeaturedExplorerApp: App {
                 setupTheme()
             }
         }
-        .environment(FeaturedListModel(apiService: ApiService()))
     }
     
     @ViewBuilder
     private func screenForRoute( _ route: NavigationRoute) -> some View {
         switch route {
             case .featuredRepoList:
-                FeaturedListScreen()
+                
+                let viewModel = FeaturedListModel()
+                FeaturedListScreen(viewModel: viewModel)
                 
             case .repoDetail(let repository):
-                let model = RepositoryDetailModel(repository: repository)
-                
+                let viewModel = RepositoryDetailModel(repository: repository)
                 RepositoryDetailScreen()
-                    .environment(model)
+                    .environment(viewModel)
         }
     }
     
