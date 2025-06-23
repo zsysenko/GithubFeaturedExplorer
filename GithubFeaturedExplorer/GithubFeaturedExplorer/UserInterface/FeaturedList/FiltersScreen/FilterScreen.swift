@@ -47,7 +47,7 @@ struct FilterScreen<Object: FilterObjectProtocol>: View {
                         .frame(maxWidth: .infinity, maxHeight: 30)
                 }
                 .buttonStyle(.borderedProminent)
-                .padding()
+                .padding(.horizontal, 50)
             }
         }
         .searchable(text: $searchText, placement: .navigationBarDrawer)
@@ -63,7 +63,8 @@ struct FilterScreen<Object: FilterObjectProtocol>: View {
     FilterScreen(
         viewModel: FiltersViewModel(
             objects: ["Swift", "Python"],
-            selectedObject: .constant("Swift")
+            selectedObject: .constant("Swift"),
+            isOptionalAvailable: true
         ),
         onDismiss: {}
     )

@@ -79,7 +79,6 @@ final class RepositoryDetailModel {
     }
     
     //TODO: Need auth. Skip for now.
-    
 //    func fetchCollaborators() async {
 //        do {
 //            let collaborators = try await apiService.fetchCollaborators(owner: owner , repo: repo)

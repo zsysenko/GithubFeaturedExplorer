@@ -59,28 +59,10 @@ struct FeaturedListScreen: View {
         .sheet(item: $selectedFilter, content: { selectedFilter in
             switch selectedFilter {
                 case .dateRangeFilter:
-                    let dateFilterViewModel = FiltersViewModel(
-                        objects: DateRange.allCases,
-                        selectedObject: $viewModel.selectedDataRange
-                    )
-                    FilterScreen(
-                        viewModel: dateFilterViewModel,
-                        onDismiss: {
-                            self.selectedFilter = nil
-                        }
-                    )
+                    dateRangeFiltersScreen
                     
                 case .languageFilter:
-                    let languageFilterViewModel = FiltersViewModel(
-                        objects: viewModel.languages,
-                        selectedObject: $viewModel.selectedLanguage
-                    )
-                    FilterScreen(
-                        viewModel: languageFilterViewModel,
-                        onDismiss: {
-                            self.selectedFilter = nil
-                        }
-                    )
+                    languageFiltersScreen
             }
         })
         .onChange(of: viewModel.selectedDataRange, initial: true, { old, new in
@@ -135,6 +117,33 @@ struct FeaturedListScreen: View {
                 selectedFilter = .languageFilter
             }
         }
+    }
+    
+    private var dateRangeFiltersScreen: some View {
+        let dateFilterViewModel = FiltersViewModel(
+            objects: DateRange.allCases,
+            selectedObject: $viewModel.selectedDataRange
+        )
+        return FilterScreen(
+            viewModel: dateFilterViewModel,
+            onDismiss: {
+                self.selectedFilter = nil
+            }
+        )
+    }
+    
+    private var languageFiltersScreen: some View {
+        let languageFilterViewModel = FiltersViewModel(
+            objects: viewModel.languages,
+            selectedObject: $viewModel.selectedLanguage,
+            isOptionalAvailable: true
+        )
+        return FilterScreen(
+            viewModel: languageFilterViewModel,
+            onDismiss: {
+                self.selectedFilter = nil
+            }
+        )
     }
 }
 
